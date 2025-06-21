@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Depuración de cámara en AR.js</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ar.js@1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <style>
+      #status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        padding: 10px;
+        font-family: monospace;
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <div id="status">⏳ Cargando AR.js...</div>
+
+    <a-scene embedded arjs vr-mode-ui="enabled: false">
+      <a-box position="0 0 -5" color="lime" animation="property: rotation; to: 0 360 0; loop: true; dur: 4000"></a-box>
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const status = document.getElementById("status");
+
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(() => {
+          status.innerText = "✅ Cámara activada correctamente.";
+        })
+        .catch((err) => {
+          console.error("❌ Error al acceder a la cámara:", err);
+          if (err.name === "NotAllowedError") {
+            status.innerText = "❌ Permiso de cámara denegado. Ve a Configuración > Sitios > Cámara y habilítalo.";
+          } else if (err.name === "NotFoundError") {
+            status.innerText = "❌ No se encontró cámara disponible en este dispositivo.";
+          } else {
+            status.innerText = "⚠️ Error de cámara: " + err.name;
+          }
+        });
+    </script>
+  </body>
+</html>
