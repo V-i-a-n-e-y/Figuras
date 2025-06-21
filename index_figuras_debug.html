@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DEBUG: AR Marker Hiro</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <style>
+      #status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #00ff00;
+        font-family: sans-serif;
+        font-size: 16px;
+        z-index: 999;
+        display: none;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <div id="status">✅ Marcador detectado</div>
+
+    <a-scene embedded arjs>
+      <a-assets>
+        <a-asset-item id="dynamicModel" src="Cubo.glb"></a-asset-item>
+      </a-assets>
+
+      <a-marker preset="hiro" emitevents="true">
+        <a-entity id="model"
+                  gltf-model="#dynamicModel"
+                  scale="0.1 0.1 0.1"
+                  position="0 0 0">
+        </a-entity>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const status = document.getElementById("status");
+      const marker = document.querySelector("a-marker");
+
+      marker.addEventListener("markerFound", () => {
+        status.style.display = "block";
+      });
+
+      marker.addEventListener("markerLost", () => {
+        status.style.display = "none";
+      });
+    </script>
+  </body>
+</html>
