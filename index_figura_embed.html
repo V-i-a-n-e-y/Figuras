@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test WebAR sin GLB externo</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <style>
+      #status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+        background: rgba(0,0,0,0.7);
+        color: #0f0;
+        font-family: sans-serif;
+        font-size: 16px;
+        z-index: 999;
+        display: none;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <div id="status">✅ Marcador Hiro detectado</div>
+
+    <a-scene embedded arjs>
+      <a-marker preset="hiro" emitevents="true">
+        <!-- Modelo embebido: cubo básico -->
+        <a-box position="0 0.5 0" color="#4CC3D9" depth="1" height="1" width="1" animation="property: rotation; to: 0 360 0; loop: true; dur: 3000"></a-box>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const status = document.getElementById("status");
+      const marker = document.querySelector("a-marker");
+
+      marker.addEventListener("markerFound", () => {
+        status.style.display = "block";
+      });
+      marker.addEventListener("markerLost", () => {
+        status.style.display = "none";
+      });
+    </script>
+  </body>
+</html>
