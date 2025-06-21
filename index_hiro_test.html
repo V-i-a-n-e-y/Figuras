@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>AR.js con marcador Hiro (prueba mínima)</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; font-family: sans-serif; }
+      #mensaje {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 10px;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mensaje">📷 Apunta al marcador Hiro para ver el cubo girar</div>
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <a-box color="orange"
+               position="0 0.5 0"
+               animation="property: rotation; to: 0 360 0; loop: true; dur: 4000"
+               depth="1" height="1" width="1">
+        </a-box>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
